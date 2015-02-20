@@ -50,9 +50,33 @@ def train_model():
     yTrain = map(ord, labelsInfoTrain["Class"])
     yTrain = np.array(yTrain)
     
-    
-    model.fit(xTrain, yTrain)
     cvAccuracy = np.mean(k_fold_CV(model, xTrain, yTrain, cv=2, scoring="accuracy"))
 
-if __name__ == '__main__':
+def get_submission():
+    imageSize = 400 # 20 x 20 pixels
+
+    #Set location of data files , folders
+    path = '.'
+
+    labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
+
+    #Read training matrix
+    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
+
+    #Read information about test data ( IDs ).
+    labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
+
+    #Read test matrix
+    xTest = load_data("test", labelsInfoTest, imageSize, path)
+
+    yTrain = labelsInfoTrain['Class'].map(ord)
     
+    model.fit(xTrain, yTrain)
+    yTest = model.predict(xTest)
+    
+    submit_df = labelsInfoTest.drop('Class')
+    submit_df = submit_df.append({'Class': yTest})
+    submit_df.to_csv('submission.csv', index=False
+
+if __name__ == '__main__':
+    train_model()
