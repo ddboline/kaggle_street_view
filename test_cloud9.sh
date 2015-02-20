@@ -8,10 +8,10 @@ export LD_LIBRARY_PATH="/usr/local/cuda-6.5/lib64"
 
 rm *.pickle *.png
 
-scp ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_facial_keypoints/net.pickle .
+# scp ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_facial_keypoints/net.pickle .
 touch output.out
 touch output.err
-./test.py >> output.out 2>> output.err
+# ./test.py >> output.out 2>> output.err
 ./my_model.py $1 >> output.out 2>> output.err
 
 if [ -z $1 ]; then
@@ -19,7 +19,7 @@ if [ -z $1 ]; then
 else
     D=$1_`date +%Y%m%d%H%M%S`
 fi
-ssh ddboline@ddbolineathome.mooo.com "mkdir -p ~/setup_files/build/kaggle_facial_keypoints/output_${D}"
-scp output.out output.err *.png *.pickle submission*.csv ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_facial_keypoints/output_${D}
-ssh ddboline@ddbolineathome.mooo.com "~/bin/send_to_gtalk DONE_${D}"
+# ssh ddboline@ddbolineathome.mooo.com "mkdir -p ~/setup_files/build/kaggle_facial_keypoints/output_${D}"
+# scp output.out output.err *.png *.pickle submission*.csv ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_facial_keypoints/output_${D}
+# ssh ddboline@ddbolineathome.mooo.com "~/bin/send_to_gtalk DONE_${D}"
 # sudo shutdown now
