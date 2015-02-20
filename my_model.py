@@ -38,7 +38,7 @@ model = NeuralNet(
         ('hidden', layers.DenseLayer),
         ('output', layers.DenseLayer),],
     # layer parameters:
-    input_shape=(400),  # 96x96 input pixels per batch
+    input_shape=(400,),  # 96x96 input pixels per batch
     hidden_num_units=50,  # number of units in hidden layer
     output_nonlinearity=None,  # output layer uses identity function
     output_num_units=1,  # 30 target values
