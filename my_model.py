@@ -25,9 +25,9 @@ model = NeuralNet(
         ('output', layers.DenseLayer),],
     # layer parameters:
     input_shape=(None, 400),  # 96x96 input pixels per batch
-    hidden_num_units=100,  # number of units in hidden layer
+    hidden_num_units=50,  # number of units in hidden layer
     output_nonlinearity=None,  # output layer uses identity function
-    output_num_units=30,  # 30 target values
+    output_num_units=1,  # 30 target values
 
     # optimization method:
     update=nesterov_momentum,
