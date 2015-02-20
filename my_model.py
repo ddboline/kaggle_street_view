@@ -20,10 +20,12 @@ ORD_VALUES = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71
 def transform_str_to_feature(st):
     ordval = ord(st)
     ordidx = ORD_VALUES.index(ordval)
-    return (ordidx - len(ORD_VALUES))/float(len(ORD_VALUES))
+    n = len(ORD_VALUES)//2
+    return (ordidx - n)/float(n)
 
 def transform_feature_to_str(ft):
-    idx = int(ft*len(ORD_VALUES) + len(ORD_VALUES))
+    n = len(ORD_VALUES)//2
+    idx = int(ft*n + n)
     ordval = ORD_VALUES[idx]
     return chr(ordval)
 
