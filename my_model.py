@@ -79,7 +79,7 @@ def get_submission():
     
     submit_df = labelsInfoTest.drop('Class')
     submit_df = submit_df.append({'Class': yTest})
-    submit_df['Class'
+    submit_df['Class'].map(chr)
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
