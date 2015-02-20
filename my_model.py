@@ -15,6 +15,18 @@ from nolearn.lasagne import NeuralNet
 from sklearn.cross_validation import cross_val_score as k_fold_CV
 from sklearn.cross_validation import train_test_split
 
+ORD_VALUES = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]
+
+def transform_str_to_feature(st):
+    ordval = ord(st)
+    ordidx = ORD_VALUES.index(ordval)
+    return (ordidx - len(ORD_VALUES))/float(len(ORD_VALUES))
+
+def transform_feature_to_str(ft):
+    idx = int(ft*len(ORD_VALUES) + len(ORD_VALUES))
+    ordval = ORD_VALUES[idx]
+    return chr(ordval)
+
 def float32(k):
     return np.cast['float32'](k)
 
@@ -55,7 +67,7 @@ def train_model():
     #Read test matrix
     xTest = load_data("test", labelsInfoTest, imageSize, path)
 
-    yTrain = labelsInfoTrain['Class'].map(ord)
+    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
@@ -83,14 +95,14 @@ def get_submission():
     #Read test matrix
     xTest = load_data("test", labelsInfoTest, imageSize, path)
 
-    yTrain = labelsInfoTrain['Class'].map(ord)
+    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
     
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
     
     submit_df = labelsInfoTest.drop('Class')
     submit_df = submit_df.append({'Class': yTest})
-    submit_df['Class'].map(chr)
+    submit_df['Class'].map(transform_feature_to_str)
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
