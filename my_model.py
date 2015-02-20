@@ -51,9 +51,8 @@ def train_model():
     #Read test matrix
     xTest = load_data("test", labelsInfoTest, imageSize, path)
 
-    yTrain = map(ord, labelsInfoTrain["Class"])
-    yTrain = np.array(yTrain)
-    
+    yTrain = labelsInfoTrain['Class'].map(ord)
+
     cvAccuracy = np.mean(k_fold_CV(model, xTrain, yTrain, cv=2, scoring="accuracy"))
 
 def get_submission():
@@ -80,6 +79,7 @@ def get_submission():
     
     submit_df = labelsInfoTest.drop('Class')
     submit_df = submit_df.append({'Class': yTest})
+    submit_df['Class'
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
