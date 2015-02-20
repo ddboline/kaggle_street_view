@@ -69,6 +69,8 @@ def train_model():
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
+    print yTrain
+
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
     xtrain, xtest, ytrain, ytest = map(float32, [xtrain, xtest, ytrain, ytest])
