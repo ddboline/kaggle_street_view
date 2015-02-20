@@ -76,7 +76,7 @@ def get_submission():
     
     submit_df = labelsInfoTest.drop('Class')
     submit_df = submit_df.append({'Class': yTest})
-    submit_df.to_csv('submission.csv', index=False
+    submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
     train_model()
