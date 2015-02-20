@@ -14,6 +14,9 @@ from nolearn.lasagne import NeuralNet
 
 from sklearn.cross_validation import cross_val_score as k_fold_CV
 
+def float32(k):
+    return np.cast['float32'](k)
+
 model = NeuralNet(
     layers=[ # three layers: one hidden layer
         ('input', layers.InputLayer),
@@ -52,6 +55,8 @@ def train_model():
     xTest = load_data("test", labelsInfoTest, imageSize, path)
 
     yTrain = labelsInfoTrain['Class'].map(ord)
+
+    xTrain, yTrain = map(float32, [xTrain, yTrain])
 
     cvAccuracy = np.mean(k_fold_CV(model, xTrain, yTrain, cv=2, scoring="accuracy"))
 
