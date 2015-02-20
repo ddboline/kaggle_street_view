@@ -5,6 +5,8 @@ import matplotlib
 matplotlib.use('Agg')
 import pylab as pl
 
+import pandas as pd
+
 from load_fn import load_data
 from lasagne import layers
 from lasagne.updates import nesterov_momentum
