@@ -60,36 +60,18 @@ def train_nn_model():
         max_epochs=200,  # we want to train this many epochs
         verbose=1,)
 
-    imageSize = 400 # 20 x 20 pixels
-
-    #Set location of data files , folders
-    path = '.'
-
-    labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
-
-    #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
-
-    #Read information about test data ( IDs ).
-    labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
-
-    #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path)
+    xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
-    print yTrain
-
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
-
-    xtrain, xtest, ytrain, ytest = map(float32, [xtrain, xtest, ytrain, ytest])
 
     print xtrain.shape, xtest.shape, ytrain.shape, ytest.shape
     model.fit(xtrain, ytrain)
     ytest_pred = model.predict(xtest)
     print model.accuracy_score(ytest_pred,ytest)
 
-def train_model():
+def load_train_test_data():
     imageSize = 400 # 20 x 20 pixels
 
     #Set location of data files , folders
@@ -107,6 +89,12 @@ def train_model():
     xTest = load_data("test", labelsInfoTest, imageSize, path)
 
     yTrain = labelsInfoTrain['Class'].map(ord)
+
+    return xTrain, yTrain, xTest, labelsInfoTest
+    
+
+def train_model():
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
@@ -117,23 +105,7 @@ def train_model():
     print accuracy_score(ytest_pred,ytest)
 
 def test_knn_model():
-    imageSize = 400 # 20 x 20 pixels
-
-    #Set location of data files , folders
-    path = '.'
-
-    labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
-
-    #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
-
-    #Read information about test data ( IDs ).
-    labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
-
-    #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path)
-
-    yTrain = labelsInfoTrain['Class'].map(ord)
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
     start = time.time()
@@ -144,21 +116,7 @@ def test_knn_model():
     print time.time() - start, "seconds elapsed"
 
 def get_submission():
-    imageSize = 400 # 20 x 20 pixels
-
-    #Set location of data files , folders
-    path = '.'
-
-    labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
-
-    #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
-
-    #Read information about test data ( IDs ).
-    labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
-
-    #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path)
+    xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
     yTrain = labelsInfoTrain['Class'].map(ord)
     
