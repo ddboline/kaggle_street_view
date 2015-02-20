@@ -12,6 +12,8 @@ from lasagne import layers
 from lasagne.updates import nesterov_momentum
 from nolearn.lasagne import NeuralNet
 
+from sklearn.cross_validation import cross_val_score as k_fold_CV
+
 model = NeuralNet(
     layers=[ # three layers: one hidden layer
         ('input', layers.InputLayer),
