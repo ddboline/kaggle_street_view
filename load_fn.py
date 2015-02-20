@@ -17,4 +17,5 @@ def load_data(typeData, labelsInfo, imageSize, path):
         img = imread(nameFile, as_grey=True)
         x[index, :] = np.reshape(img, (1, imageSize))
     x = np.vstack(x)
+    print x.shape
     return x
