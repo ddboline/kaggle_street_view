@@ -61,6 +61,7 @@ def train_model():
 
     xtrain, xtest, ytrain, ytest = map(float32, [xtrain, xtest, ytrain, ytest])
 
+    print xtrain.shape, xtest.shape, ytrain.shape, ytest.shape
     model.fit(xtrain, ytrain)
     ytest_pred = model.predict(xtest)
     print model.accuracy_score(ytest_pred,ytest)
