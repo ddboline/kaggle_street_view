@@ -62,8 +62,6 @@ def train_nn_model():
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
-    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
-
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
     print xtrain.shape, xtest.shape, ytrain.shape, ytest.shape
@@ -82,16 +80,15 @@ def load_train_test_data():
     #Read training matrix
     xTrain = load_data("train", labelsInfoTrain, imageSize, path)
 
+    yTrain = labelsInfoTrain['Class'].map(ord)
+
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
     xTest = load_data("test", labelsInfoTest, imageSize, path)
 
-    yTrain = labelsInfoTrain['Class'].map(ord)
-
     return xTrain, yTrain, xTest, labelsInfoTest
-    
 
 def train_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
@@ -117,17 +114,18 @@ def test_knn_model():
 
 def get_submission():
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
-
-    yTrain = labelsInfoTrain['Class'].map(ord)
-    
-    model = RandomForestClassifier(n_estimators=200)
+   
+    model = RandomForestClassifier(n_estimators=400)
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
     
-    submit_df = labelsInfoTest.drop('Class')
-    submit_df = submit_df.append({'Class': yTest})
-    submit_df['Class'].map(chr)
+    print labelsInfoTest.shape, yTest.shape
+    
+    yTest2 = map(chr, yTest)
+    
+    submit_df = labelsInfoTest
+    submit_df['Class'] = yTest2
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
-    train_model()
+    get_submission()
