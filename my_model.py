@@ -13,6 +13,7 @@ from lasagne.updates import nesterov_momentum
 from nolearn.lasagne import NeuralNet
 
 from sklearn.cross_validation import cross_val_score as k_fold_CV
+from sklearn.cross_validation import train_test_split
 
 def float32(k):
     return np.cast['float32'](k)
@@ -56,9 +57,13 @@ def train_model():
 
     yTrain = labelsInfoTrain['Class'].map(ord)
 
-    xTrain, yTrain = map(float32, [xTrain, yTrain])
+    xtrain, xtest, ytrain, ytest = cross_validation.train_test_split(xTrain, yTrain, test_size=0.5)
 
-    cvAccuracy = np.mean(k_fold_CV(model, xTrain, yTrain, cv=2, scoring="accuracy"))
+    xtrain, xtest, ytrain, ytest = map(float32, [xtrain, xtest, ytrain, ytest])
+
+    model.fit(xtrain, ytrain)
+    ytest_pred = model.predict(xtest)
+    print model.accuracy_score(ytest_pred,ytest)
 
 def get_submission():
     imageSize = 400 # 20 x 20 pixels
