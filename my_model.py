@@ -10,7 +10,7 @@ import pandas as pd
 from load_fn import load_data
 
 from sklearn.neighbors import KNeighborsClassifier as KNN
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.grid_search import GridSearchCV
 
 from sklearn.cross_validation import cross_val_score as k_fold_CV
@@ -99,7 +99,7 @@ def train_model():
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
+    model = RandomForestRegressor(n_estimators=400, n_jobs=-1)
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
@@ -119,7 +119,7 @@ def test_knn_model():
 def get_submission():
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
    
-    model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
+    model = RandomForestRegressor(n_estimators=400, n_jobs=-1)
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
     
