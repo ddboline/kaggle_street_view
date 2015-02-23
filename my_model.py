@@ -46,7 +46,7 @@ def load_train_test_data():
     #Read training matrix
     xTrain = load_data("train", labelsInfoTrain, imageSize, path)
 
-    yTrain = labelsInfoTrain['Class'].map(ord)
+    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
@@ -125,7 +125,7 @@ def get_submission():
     
     print labelsInfoTest.shape, yTest.shape
     
-    yTest2 = map(chr, yTest)
+    yTest2 = map(transform_feature_to_str, yTest)
     
     submit_df = labelsInfoTest
     submit_df['Class'] = yTest2
