@@ -48,7 +48,7 @@ def load_train_test_data():
     labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
 
     #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
+    xTrain = load_data("train", labelsInfoTrain, path)
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
 
