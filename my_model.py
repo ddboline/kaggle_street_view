@@ -132,5 +132,6 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
+    train_model()
     #get_submission()
-    train_nn_model()
+    #train_nn_model()
