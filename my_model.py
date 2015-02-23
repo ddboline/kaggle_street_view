@@ -62,12 +62,10 @@ def train_nn_model():
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
-    xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
-
-    print xtrain.shape, xtest.shape, ytrain.shape, ytest.shape
-    model.fit(xtrain, ytrain)
-    ytest_pred = model.predict(xtest)
-    print model.accuracy_score(ytest_pred,ytest)
+    model.fit(xTrain, yTrain)
+    ytest_pred = model.predict(xTrain)
+    print model.accuracy_score(ytest_pred,yTrain)
+    return model
 
 def load_train_test_data():
     imageSize = 400 # 20 x 20 pixels
@@ -128,4 +126,5 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
-    get_submission()
+    #get_submission()
+    train_nn_model()
