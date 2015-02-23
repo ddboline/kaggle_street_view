@@ -62,6 +62,8 @@ def train_nn_model():
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
+    print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
+
     model.fit(xTrain, yTrain)
     ytest_pred = model.predict(xTrain)
     print model.accuracy_score(ytest_pred,yTrain)
