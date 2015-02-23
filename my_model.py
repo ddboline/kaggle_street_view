@@ -48,15 +48,16 @@ def load_train_test_data():
     labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
 
     #Read training matrix
-    xTrain = float32(load_data("train", labelsInfoTrain, imageSize, path))
+    xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
 
-    yTrain = float32(labelsInfoTrain['Class'].map(transform_str_to_feature))
+    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
+
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path)
+    xTest = load_data("test", labelsInfoTest, imageSize, path).astype(np.float32)
 
     return xTrain, yTrain, xTest, labelsInfoTest
 
