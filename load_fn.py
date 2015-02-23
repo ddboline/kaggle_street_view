@@ -16,6 +16,8 @@ def load_data(typeData, labelsInfo, imageSize, path):
         nameFile = "{0}/{1}Resized/{2}.Bmp".format(path, typeData, idImage)
         img = imread(nameFile, as_grey=True)
         print img.shape, img.dtype
+        img = img.astype(np.float32)
+        print img.shape, img.dtype
         exit(0)
         x[index, :] = np.reshape(img, (1, imageSize))
     return x
