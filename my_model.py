@@ -48,9 +48,9 @@ def load_train_test_data():
     labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
 
     #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
+    xTrain = float32(load_data("train", labelsInfoTrain, imageSize, path))
 
-    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
+    yTrain = float32(labelsInfoTrain['Class'].map(transform_str_to_feature))
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
@@ -88,7 +88,7 @@ def train_nn_model():
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
     print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
-    print xTrain.dtype, yTrain.dtype, xTest.dtype, labelsInfoTest.dtype
+    print xTrain.dtype, yTrain.dtype, xTest.dtype
 
     #exit(0)
 
