@@ -68,7 +68,7 @@ def train_nn_model():
     model = NeuralNet(
         layers=[ # three layers: one hidden layer
             ('input', layers.InputLayer),
-            #('hidden', layers.DenseLayer),
+            ('hidden', layers.DenseLayer),
             ('output', layers.DenseLayer),],
         # layer parameters:
         input_shape=(None, 400),  # 96x96 input pixels per batch
