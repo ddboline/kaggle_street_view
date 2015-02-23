@@ -102,7 +102,7 @@ def train_model():
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
-    print accuracy_score(ytest_pred,ytest)
+    print accuracy_score(ytest_pred, ytest)
 
 def test_knn_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
@@ -131,6 +131,6 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
-    train_model()
+    test_knn_model()
     #get_submission()
     #train_nn_model()
