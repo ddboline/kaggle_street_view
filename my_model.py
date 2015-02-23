@@ -35,6 +35,27 @@ def float32(k):
     return np.cast['float32'](k)
 
 
+def load_train_test_data():
+    imageSize = 400 # 20 x 20 pixels
+
+    #Set location of data files , folders
+    path = '.'
+
+    labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
+
+    #Read training matrix
+    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
+
+    yTrain = labelsInfoTrain['Class'].map(ord)
+
+    #Read information about test data ( IDs ).
+    labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
+
+    #Read test matrix
+    xTest = load_data("test", labelsInfoTest, imageSize, path)
+
+    return xTrain, yTrain, xTest, labelsInfoTest
+
 def train_nn_model():
     from lasagne import layers
     from lasagne.updates import nesterov_momentum
@@ -64,7 +85,7 @@ def train_nn_model():
 
     print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
 
-    print xTrain
+    print yTrain
     
     exit(0)
 
@@ -72,27 +93,6 @@ def train_nn_model():
     ytest_pred = model.predict(xTrain)
     print model.accuracy_score(ytest_pred,yTrain)
     return model
-
-def load_train_test_data():
-    imageSize = 400 # 20 x 20 pixels
-
-    #Set location of data files , folders
-    path = '.'
-
-    labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
-
-    #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
-
-    yTrain = labelsInfoTrain['Class'].map(ord)
-
-    #Read information about test data ( IDs ).
-    labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
-
-    #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path)
-
-    return xTrain, yTrain, xTest, labelsInfoTest
 
 def train_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
