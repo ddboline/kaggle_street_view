@@ -22,9 +22,14 @@ ORD_VALUES = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71
 def transform_str_to_feature(st):
     ordval = ord(st)
     ordidx = ORD_VALUES.index(ordval)
-    return ordidx
+    return (ordidx)/float(len(ORD_VALUES))
 
-def transform_feature_to_str(idx):
+def transform_feature_to_str(ft):
+    idx = int(ft * len(ORD_VALUES))
+    if idx < 0 :
+        idx = 0
+    if idx >= len(ORD_VALUES):
+        idx = ORD_VALUES-1
     ordval = ORD_VALUES[idx]
     return chr(ordval)
 
@@ -98,7 +103,7 @@ def train_model():
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model = RandomForestClassifier(n_estimators=800, n_jobs=-1)
+    model = RandomForestRegressor(n_estimators=800, n_jobs=-1)
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
@@ -116,7 +121,7 @@ def test_knn_model():
 def get_submission():
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
    
-    model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
+    model = RandomForestRegressor(n_estimators=400, n_jobs=-1)
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
     
