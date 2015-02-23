@@ -84,7 +84,7 @@ def train_nn_model():
 
         regression=False,  # flag to indicate we're dealing with regression problem
         max_epochs=200,  # we want to train this many epochs
-        verbose=1,)
+        verbose=0,)
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
