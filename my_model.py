@@ -74,14 +74,14 @@ def train_nn_model():
         input_shape=(None, 400),  # 96x96 input pixels per batch
         hidden_num_units=50,  # number of units in hidden layer
         output_nonlinearity=None,  # output layer uses identity function
-        output_num_units=60,  # 30 target values
+        output_num_units=1,  # 30 target values
 
         # optimization method:
         update=nesterov_momentum,
         update_learning_rate=0.01,
         update_momentum=0.9,
 
-        regression=False,  # flag to indicate we're dealing with regression problem
+        regression=True,  # flag to indicate we're dealing with regression problem
         max_epochs=200,  # we want to train this many epochs
         verbose=1,)
 
@@ -89,7 +89,7 @@ def train_nn_model():
 
     print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
 
-    exit(0)
+    #exit(0)
 
     model.fit(xTrain, yTrain)
     ytest_pred = model.predict(xTrain)
