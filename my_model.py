@@ -92,8 +92,8 @@ def train_nn_model():
     #exit(0)
 
     model.fit(xTrain, yTrain)
-    ytest_pred = model.predict(xTrain)
-    print model.accuracy_score(ytest_pred,yTrain)
+    #ytest_pred = model.predict(xTrain)
+    #print model.accuracy_score(ytest_pred,yTrain)
     return model
 
 def train_model():
