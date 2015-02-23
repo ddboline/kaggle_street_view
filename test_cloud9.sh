@@ -10,7 +10,12 @@ export LD_LIBRARY_PATH="/usr/local/cuda-6.5/lib64"
 
 rm *.pickle *.png
 
-# scp ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_facial_keypoints/net.pickle .
+for F in testResized.zip test.zip trainResized.zip train.zip;
+do
+    scp ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_street_view/$F .
+    unzip -x $F
+done
+
 touch output.out
 touch output.err
 # ./test.py >> output.out 2>> output.err
