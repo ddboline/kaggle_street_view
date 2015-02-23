@@ -3,16 +3,20 @@
 sudo modprobe nvidia-340
 sudo modprobe nvidia-340-uvm
 
-sudo apt-get install -y python-skimage
+sudo apt-get install -y python-skimage unzip
 
 export PATH="/usr/local/cuda-6.5/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda-6.5/lib64"
 
 rm *.pickle *.png
 
-for F in testResized.zip test.zip trainResized.zip train.zip;
+for F in sampleSubmission.csv submission.csv trainLabels.csv testResized.zip test.zip trainResized.zip train.zip;
 do
     scp ddboline@ddbolineathome.mooo.com:~/setup_files/build/kaggle_street_view/$F .
+done
+
+for F in testResized.zip test.zip trainResized.zip train.zip;
+do
     unzip -x $F
 done
 
