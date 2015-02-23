@@ -57,7 +57,7 @@ def load_train_test_data():
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path).astype(np.float32)
+    xTest = load_data("test", labelsInfoTest, path)
 
     return xTrain, yTrain, xTest, labelsInfoTest
 
