@@ -45,7 +45,7 @@ def load_train_test_data():
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
-    print yTrain
+    #print yTrain
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
