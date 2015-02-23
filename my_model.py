@@ -129,6 +129,7 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
-    test_knn_model()
-    #get_submission()
+    #test_knn_model()
+    train_model()
     #train_nn_model()
+    #get_submission()
