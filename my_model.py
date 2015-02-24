@@ -105,7 +105,7 @@ def train_nn_model():
 
     model.fit(xTrain, yTrain)
     ytest_pred = model.predict(xTrain)
-    print yTrain.shape, ytest_pred
+    print yTrain.shape, ytest_pred.shape
     print accuracy_score(ytest_pred, yTrain)
     return model
 
