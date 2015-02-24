@@ -3,7 +3,7 @@
 sudo modprobe nvidia-340
 sudo modprobe nvidia-340-uvm
 
-sudo apt-get install -y python-skimage unzip
+sudo apt-get install -y python-skimage unzip ipython
 
 export PATH="/usr/local/cuda-6.5/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda-6.5/lib64"
