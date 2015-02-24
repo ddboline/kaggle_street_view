@@ -37,10 +37,10 @@ def transform_feature_to_str(ft):
     return chr(ordval)
 
 def transform_from_classes(inp):
-    y = np.zeros((inp.shape[0], NORD), dtype=np.int64)
+    y = np.zeros((inp.shape[0], NORD), dtype=np.float32)
     for (index, Class) in enumerate(inp):
         cidx = ORD_VALUES.index(ord(Class))
-        y[index, cidx] = 1
+        y[index, cidx] = 1.0
     return y
 
 def transform_to_class(yinp):
@@ -94,7 +94,7 @@ def train_nn_model():
         update_learning_rate=0.01,
         update_momentum=0.9,
 
-        regression=False,  # flag to indicate we're dealing with regression problem
+        regression=True,  # flag to indicate we're dealing with regression problem
         max_epochs=400,  # we want to train this many epochs
         verbose=1,)
 
@@ -104,9 +104,10 @@ def train_nn_model():
     print xTrain.dtype, yTrain.dtype
 
     model.fit(xTrain, yTrain)
-    ytest_pred = model.predict(xTrain)
+    #ytest_pred = model.predict(xTrain)
     print yTrain.shape, ytest_pred.shape
-    print accuracy_score(ytest_pred, yTrain)
+    print model.score(xTrain, yTrain)
+    #print accuracy_score(ytest_pred, yTrain)
     return model
 
 def train_model():
