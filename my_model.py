@@ -94,7 +94,7 @@ def train_nn_model():
         update_learning_rate=0.01,
         update_momentum=0.9,
 
-        regression=True,  # flag to indicate we're dealing with regression problem
+        regression=False,  # flag to indicate we're dealing with regression problem
         max_epochs=400,  # we want to train this many epochs
         verbose=1,)
 
