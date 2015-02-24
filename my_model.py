@@ -120,7 +120,7 @@ def train_model():
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
     #model = RandomForestClassifier(n_estimators=800, n_jobs=-1)
-    model = Pipeline([('pca', PCA(n_components=62)), ('rf', RandomForestClassifier(n_estimators=400, n_jobs=-1))])
+    model = Pipeline([('pca', PCA(n_components='mle')), ('rf', RandomForestClassifier(n_estimators=400, n_jobs=-1))])
     
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
