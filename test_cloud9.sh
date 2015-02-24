@@ -9,6 +9,7 @@ export PATH="/usr/local/cuda-6.5/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda-6.5/lib64"
 
 rm *.pickle *.png
+rm /home/ubuntu/.ssh/known_hosts
 
 for F in sampleSubmission.csv submission.csv trainLabels.csv testResized.zip test.zip trainResized.zip train.zip;
 do
