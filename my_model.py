@@ -119,12 +119,12 @@ def train_model():
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model0 = RandomForestClassifier(n_estimators=800, n_jobs=-1)
+    model = RandomForestClassifier(n_jobs=-1)
     #model = Pipeline([('pca', PCA(n_components='mle')), ('rf', RandomForestClassifier(n_estimators=400, n_jobs=-1))])
     
-    model0.fit(xtrain, ytrain)
-    ytrain0 = model0.predict(ytrain)
-    ytest0 = model0.predict(xtest)
+    model.fit(xtrain, ytrain)
+    ytrain = model.predict(ytrain)
+    ytest = model.predict(xtest)
     
     
     
@@ -173,6 +173,6 @@ if __name__ == '__main__':
     #load_train_test_data()
     #train_nn_model()
     #train_knn_model()
-    test_knn_model()
-    #train_model()
+    #test_knn_model()
+    train_model()
     #get_submission()
