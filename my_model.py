@@ -49,7 +49,10 @@ def load_train_test_data():
     labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
 
     #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, path).astype(np.float32)
+    xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
+
+    print xTrain.min(), xTrain.max()
+    exit(0)
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
 
@@ -58,11 +61,13 @@ def load_train_test_data():
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
-    xTest = load_data("test", labelsInfoTest, path).astype(np.float32)
+    xTest = load_data("test", labelsInfoTest, imageSize, path).astype(np.float32)
 
     return xTrain, yTrain, xTest, labelsInfoTest
 
 def train_nn_model():
+    imageSize = 400 # 20 x 20 pixels
+
     from lasagne import layers
     from lasagne.updates import nesterov_momentum
     from nolearn.lasagne import NeuralNet
@@ -73,7 +78,7 @@ def train_nn_model():
             ('hidden', layers.DenseLayer),
             ('output', layers.DenseLayer),],
         # layer parameters:
-        input_shape=(None, 20, 20),  # 96x96 input pixels per batch
+        input_shape=(None, imageSize),  # 96x96 input pixels per batch
         hidden_num_units=100,  # number of units in hidden layer
         output_nonlinearity=None,  # output layer uses identity function
         output_num_units=1,  # 30 target values
@@ -146,7 +151,8 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
+    load_train_test_data()
     #train_knn_model()
     #train_model()
-    train_nn_model()
+    #train_nn_model()
     #get_submission()
