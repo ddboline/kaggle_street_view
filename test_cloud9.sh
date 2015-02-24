@@ -23,8 +23,7 @@ done
 touch output.out
 touch output.err
 # ./test.py >> output.out 2>> output.err
-# ./my_model.py $1 >> output.out 2>> output.err
-./my_model.py
+./my_model.py $1 >> output.out 2>> output.err
 
 # if [ -z $1 ]; then
 #     D=`date +%Y%m%d%H%M%S`

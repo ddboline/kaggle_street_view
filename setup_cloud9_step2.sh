@@ -19,16 +19,6 @@ sudo pip install --upgrade theano 2>&1 > theano_build.log
 sudo pip install git+https://github.com/benanne/Lasagne.git 2>&1 > lasagne_build.log
 sudo pip install nolearn 2>&1 > nolearn_build.log
 
-for F in training.zip test.zip IdLookupTable.csv SampleSubmission.csv;
-do
-    scp ubuntu@ddbolineinthecloud.mooo.com:~/setup_files/build/kaggle_facial_keypoints/$F .
-done
-
-for F in training.zip test.zip;
-do
-    unzip -x $F;
-done
-
 cd $HOME
 git clone pip install https://github.com/lisa-lab/pylearn2.git
 ### this doesn't really work any other way
