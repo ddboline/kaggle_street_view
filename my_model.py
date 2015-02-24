@@ -26,7 +26,7 @@ def transform_str_to_feature(st):
     ordidx = ORD_VALUES.index(ordval)
     #return (ordidx-NORD//2)/float(NORD//2)
     output = np.zeros((1,NORD))
-    output[ordidx] = 1
+    output[0,ordidx] = 1
     return output
 
 def transform_feature_to_str(ft):
