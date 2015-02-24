@@ -25,7 +25,7 @@ def transform_str_to_feature(st):
     ordval = ord(st)
     ordidx = ORD_VALUES.index(ordval)
     #return (ordidx-NORD//2)/float(NORD//2)
-    output = np.zeros(NORD,)
+    output = np.zeros(1,NORD)
     output[ordidx] = 1
     return output
 
@@ -60,7 +60,7 @@ def load_train_test_data():
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path).astype(np.float32)
+    xTest = load_data("test", labelsInfoTest, imageSize, path)
 
     return xTrain, yTrain, xTest, labelsInfoTest
 
