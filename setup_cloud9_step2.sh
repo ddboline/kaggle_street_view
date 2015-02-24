@@ -15,9 +15,9 @@ sudo modprobe nvidia-340-uvm
 ### getting this to work may require:
 ### installing from https://github.com/Theano/Theano.git
 ### changing a line in theano/sandbox/cuda/cuda_ndarray.cuh (more likely the former than the latter)
-sudo pip install --upgrade theano 2>&1 > theano_build.log
+sudo pip install --upgrade git+https://github.com/Theano/Theano.git 2>&1 > theano_build.log
 sudo pip install git+https://github.com/benanne/Lasagne.git 2>&1 > lasagne_build.log
-sudo pip install nolearn 2>&1 > nolearn_build.log
+sudo pip install git+https://github.com/dnouri/nolearn.git 2>&1 > nolearn_build.log
 
 cd $HOME
 git clone pip install https://github.com/lisa-lab/pylearn2.git
