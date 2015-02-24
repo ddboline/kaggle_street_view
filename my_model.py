@@ -37,7 +37,7 @@ def transform_feature_to_str(ft):
     return chr(ordval)
 
 def transform_from_classes(inp):
-    y = np.zeros((inp.shape[0], NORD), dtype=np.float32)
+    y = np.zeros((inp.shape[0], NORD), dtype=np.int64)
     for (index, Class) in enumerate(inp):
         cidx = ORD_VALUES.index(ord(Class))
         y[index, cidx] = 1.0
