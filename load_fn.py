@@ -17,5 +17,5 @@ def load_data(typeData, labelsInfo, imageSize, path):
         img = imread(nameFile, as_grey=True)
         print img
         #x[index, :, :] = img
-        np.reshape(img, (1, imageSize))
+        x[index, :, :] = np.reshape(img, (1, imageSize))
     return x
