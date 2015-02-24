@@ -77,7 +77,7 @@ def train_nn_model():
             ('output', layers.DenseLayer),],
         # layer parameters:
         input_shape=(None, imageSize),  # 96x96 input pixels per batch
-        hidden_num_units=100,  # number of units in hidden layer
+        hidden_num_units=500,  # number of units in hidden layer
         output_nonlinearity=None,  # output layer uses identity function
         output_num_units=1,  # 30 target values
 
