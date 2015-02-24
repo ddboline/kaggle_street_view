@@ -95,7 +95,7 @@ def train_nn_model():
         update_momentum=0.9,
 
         regression=True,  # flag to indicate we're dealing with regression problem
-        max_epochs=400,  # we want to train this many epochs
+        max_epochs=1000,  # we want to train this many epochs
         verbose=1,)
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
