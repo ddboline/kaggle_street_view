@@ -24,10 +24,7 @@ def transform_str_to_feature(st):
     #return ord(st)
     ordval = ord(st)
     ordidx = ORD_VALUES.index(ordval)
-    #return (ordidx-NORD//2)/float(NORD//2)
-    output = np.zeros((1,NORD))
-    output[0,ordidx] = 1
-    return output
+    return (ordidx-NORD//2)/float(NORD//2)
 
 def transform_feature_to_str(ft):
     #return chr(ft)
@@ -54,13 +51,13 @@ def load_train_test_data():
     #Read training matrix
     xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
 
-    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
+    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path)
+    xTest = load_data("test", labelsInfoTest, imageSize, path).astype(np.float32)
 
     return xTrain, yTrain, xTest, labelsInfoTest
 
