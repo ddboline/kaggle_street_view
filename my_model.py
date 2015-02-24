@@ -89,8 +89,8 @@ def train_nn_model():
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
-    print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
-    print xTrain.dtype, yTrain.dtype, xTest.dtype
+    print xTrain.shape, yTrain.shape
+    print xTrain.dtype, yTrain.dtype
 
     exit(0)
 
