@@ -147,6 +147,8 @@ def test_knn_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
+    
+    model = KNN()
     tuned_parameters = [{"n_neighbors":list(range(1,5))}]
     clf = GridSearchCV( model, tuned_parameters, cv=5, scoring="accuracy")
     clf.fit(xtrain, ytrain)
