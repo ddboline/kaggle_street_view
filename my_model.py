@@ -40,7 +40,7 @@ def transform_from_classes(inp):
     y = np.zeros((inp.shape[0], NORD), dtype=np.int64)
     for (index, Class) in enumerate(inp):
         cidx = ORD_VALUES.index(ord(Class))
-        y[index, cidx] = 1.0
+        y[index, cidx] = 1
     return y
 
 def transform_to_class(yinp):
