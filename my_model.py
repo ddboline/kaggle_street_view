@@ -159,6 +159,6 @@ def get_submission():
 if __name__ == '__main__':
     #load_train_test_data()
     #train_nn_model()
-    #train_knn_model()
-    train_model()
+    train_knn_model()
+    #train_model()
     #get_submission()
