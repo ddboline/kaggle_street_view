@@ -53,9 +53,6 @@ def load_train_test_data():
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
 
-    print xTrain.min(), xTrain.max()
-    print yTrain.min(), yTrain.max()
-
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
@@ -67,31 +64,20 @@ def load_train_test_data():
 def train_nn_model():
     imageSize = 400 # 20 x 20 pixels
 
-    from lasagne import layers
-    from lasagne.updates import nesterov_momentum
-    from nolearn.lasagne import NeuralNet
+    from nolearn.dbn import DBN
 
-    model = NeuralNet(
-        layers=[ # three layers: one hidden layer
-            ('input', layers.InputLayer),
-            ('hidden', layers.DenseLayer),
-            ('output', layers.DenseLayer),],
-        # layer parameters:
-        input_shape=(None, imageSize),  # 96x96 input pixels per batch
-        hidden_num_units=500,  # number of units in hidden layer
-        output_nonlinearity=None,  # output layer uses identity function
-        output_num_units=1,  # 30 target values
-
-        # optimization method:
-        update=nesterov_momentum,
-        update_learning_rate=0.01,
-        update_momentum=0.9,
-
-        regression=True,  # flag to indicate we're dealing with regression problem
-        max_epochs=200,  # we want to train this many epochs
-        verbose=0,)
+    #from lasagne import layers
+    #from lasagne.updates import nesterov_momentum
+    #from nolearn.lasagne import NeuralNet
 
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
+
+    model = DBN([xTrain.shape[1], 300, 1],
+              learn_rates=0.3,
+              learn_rate_decays=0.9,
+              epochs=10,
+              verbose=1,)
+    
 
     print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
     print xTrain.dtype, yTrain.dtype, xTest.dtype
