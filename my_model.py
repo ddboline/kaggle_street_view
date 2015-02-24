@@ -80,7 +80,7 @@ def train_nn_model():
 
         # optimization method:
         update=sgd,
-        #update_learning_rate=0.01,
+        update_learning_rate=0.01,
         #update_momentum=0.9,
 
         regression=True,  # flag to indicate we're dealing with regression problem
