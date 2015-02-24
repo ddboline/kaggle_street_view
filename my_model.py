@@ -54,6 +54,7 @@ def load_train_test_data():
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
 
     print xTrain.min(), xTrain.max()
+    print yTrain.min(), yTrain.max()
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
