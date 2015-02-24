@@ -36,9 +36,18 @@ def transform_feature_to_str(ft):
     ordval = ORD_VALUES[idx]
     return chr(ordval)
 
+def transform_from_classes(inp):
+    y = np.zeros((inp.shape[0], NORD), dtype=np.float32)
+    for (index, Class) in enumerate(inp):
+        cidx = ORD_VALUES.index(ord(Class))
+        y[index, cidx] = 1.0
+    return y
+
+def transform_to_class(yinp):
+    return np.array(map(lambda x: chr(ORD_VALUES[x]), np.argmax(yinp, axis=1)))
+
 def float32(k):
     return np.cast['float32'](k)
-
 
 def load_train_test_data():
     imageSize = 400 # 20 x 20 pixels
@@ -49,15 +58,18 @@ def load_train_test_data():
     labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
 
     #Read training matrix
-    xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
+    xTrain = load_data("train", labelsInfoTrain, imageSize, path)
 
-    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
+    yTrain = transform_from_classes(labelsInfoTrain['Class'])
+
+    print xTrain.shape, yTrain.shape
+    print xTrain.dtype, yTrain.dtype
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
-    xTest = load_data("test", labelsInfoTest, imageSize, path).astype(np.float32)
+    xTest = load_data("test", labelsInfoTest, imageSize, path)
 
     return xTrain, yTrain, xTest, labelsInfoTest
 
@@ -75,7 +87,7 @@ def train_nn_model():
         input_shape=(None, 400),  # 96x96 input pixels per batch
         hidden_num_units=100,  # number of units in hidden layer
         output_nonlinearity=None,  # output layer uses identity function
-        output_num_units=1,  # 30 target values
+        output_num_units=62,  # 30 target values
 
         # optimization method:
         update=nesterov_momentum,
@@ -143,8 +155,8 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
-    #load_train_test_data()
-    train_nn_model()
+    load_train_test_data()
+    #train_nn_model()
     #train_knn_model()
     #train_model()
     #get_submission()
