@@ -86,13 +86,14 @@ def train_nn_model():
         regression=True,  # flag to indicate we're dealing with regression problem
         max_epochs=400,  # we want to train this many epochs
         verbose=1,)
-        xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
     #model = DBN([xTrain.shape[1], 300, 1],
               #learn_rates=0.3,
               #learn_rate_decays=0.9,
               #epochs=10,
               #verbose=1,)
+
+    xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
 
     print xTrain.shape, yTrain.shape, xTest.shape, labelsInfoTest.shape
     print xTrain.dtype, yTrain.dtype, xTest.dtype
