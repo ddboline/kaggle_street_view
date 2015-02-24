@@ -21,20 +21,20 @@ ORD_VALUES = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71
 NORD = len(ORD_VALUES)
 
 def transform_str_to_feature(st):
-    #return ord(st)
-    ordval = ord(st)
-    ordidx = ORD_VALUES.index(ordval)
-    return (ordidx-NORD//2)/float(NORD//2)
+    return ord(st)
+    #ordval = ord(st)
+    #ordidx = ORD_VALUES.index(ordval)
+    #return (ordidx-NORD//2)/float(NORD//2)
 
 def transform_feature_to_str(ft):
-    #return chr(ft)
-    idx = NORD//2 + int(ft * NORD//2)
-    if idx < 0 :
-        idx = 0
-    if idx >= NORD:
-        idx = ORD_VALUES-1
-    ordval = ORD_VALUES[idx]
-    return chr(ordval)
+    return chr(ft)
+    #idx = NORD//2 + int(ft * NORD//2)
+    #if idx < 0 :
+        #idx = 0
+    #if idx >= NORD:
+        #idx = ORD_VALUES-1
+    #ordval = ORD_VALUES[idx]
+    #return chr(ordval)
 
 def transform_from_classes(inp):
     y = np.zeros((inp.shape[0], NORD), dtype=np.float32)
@@ -61,6 +61,7 @@ def load_train_test_data():
     xTrain = load_data("train", labelsInfoTrain, imageSize, path)
 
     yTrain = transform_from_classes(labelsInfoTrain['Class'])
+    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
     print xTrain.shape, yTrain.shape
     print xTrain.dtype, yTrain.dtype
@@ -114,7 +115,7 @@ def train_model():
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model = RandomForestClassifier(n_estimators=800, n_jobs=-1)
+    model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
@@ -125,7 +126,7 @@ def train_knn_model():
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model = KNN(n_neighbors=60)
+    model = KNN(n_neighbors=62)
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
