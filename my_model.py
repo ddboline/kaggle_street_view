@@ -51,7 +51,7 @@ def load_train_test_data():
     #Read training matrix
     xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
 
-    print xTrain
+    print xTrain.min(), xTrain.max()
     exit(0)
 
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
