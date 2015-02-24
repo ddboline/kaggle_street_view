@@ -123,7 +123,7 @@ def train_model():
     #model = Pipeline([('pca', PCA(n_components='mle')), ('rf', RandomForestClassifier(n_estimators=400, n_jobs=-1))])
     
     model.fit(xtrain, ytrain)
-    ytest = model.predict(xtest)
+    #ytest = model.predict(xtest)
     
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
