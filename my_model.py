@@ -17,6 +17,10 @@ from sklearn.cross_validation import cross_val_score as k_fold_CV
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 
+from sklearn.decomposition import PCA, FastICA, KernelPCA
+
+from sklearn.pipeline import Pipeline
+
 ORD_VALUES = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]
 NORD = len(ORD_VALUES)
 
@@ -115,7 +119,9 @@ def train_model():
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model = RandomForestRegressor(n_estimators=800, n_jobs=-1)
+    #model = RandomForestClassifier(n_estimators=800, n_jobs=-1)
+    model = Pipeline([('pca', PCA(n_components=62)), ('rf', RandomForestClassifier(n_estimators=400, n_jobs=-1))])
+    
     model.fit(xtrain, ytrain)
     print model.score(xtest, ytest)
     ytest_pred = model.predict(xtest)
@@ -144,7 +150,7 @@ def test_knn_model():
 def get_submission():
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
    
-    model = RandomForestRegressor(n_estimators=400, n_jobs=-1)
+    model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
     
