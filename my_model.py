@@ -51,11 +51,7 @@ def load_train_test_data():
     #Read training matrix
     xTrain = load_data("train", labelsInfoTrain, imageSize, path).astype(np.float32)
 
-    print xTrain.min(), xTrain.max()
-    exit(0)
-
     yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature).astype(np.float32)
-
 
     #Read information about test data ( IDs ).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
@@ -151,8 +147,8 @@ def get_submission():
     submit_df.to_csv('submission.csv', index=False)
 
 if __name__ == '__main__':
-    load_train_test_data()
+    #load_train_test_data()
+    train_nn_model()
     #train_knn_model()
     #train_model()
-    #train_nn_model()
     #get_submission()
