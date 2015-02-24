@@ -26,6 +26,8 @@ touch output.err
 # ./test.py >> output.out 2>> output.err
 ./my_model.py $1 >> output.out 2>> output.err
 
+ssh ddboline@ddbolineathome.mooo.com "~/bin/send_to_gtalk DONE_STEP3"
+
 # if [ -z $1 ]; then
 #     D=`date +%Y%m%d%H%M%S`
 # else

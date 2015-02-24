@@ -44,6 +44,10 @@ sudo mv blacklist-nouveau.conf /etc/modprobe.d/
 echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf
 
 sudo update-initramfs -u
+
+rm /home/ubuntu/.ssh/known_hosts
+ssh ddboline@ddbolineathome.mooo.com "~/bin/send_to_gtalk DONE_STEP1"
+
 sudo reboot
 
 # cd /usr/local/cuda/samples/1_Utilities/deviceQuery

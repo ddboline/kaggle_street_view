@@ -24,3 +24,5 @@ git clone pip install https://github.com/lisa-lab/pylearn2.git
 ### this doesn't really work any other way
 cd pylearn2
 echo "You will need to build pylearn2 manually (setup.py written by idiot...)"
+ssh ddboline@ddbolineathome.mooo.com "~/bin/send_to_gtalk DONE_STEP2"
+
