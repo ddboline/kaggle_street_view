@@ -53,7 +53,7 @@ def transform_to_class(yinp):
 def float32(k):
     return np.cast['float32'](k)
 
-def load_train_test_data():
+def load_train_test_data(nn_ytrain=False):
     imageSize = 400 # 20 x 20 pixels
 
     #Set location of data files , folders
@@ -64,8 +64,10 @@ def load_train_test_data():
     #Read training matrix
     xTrain = load_data("train", labelsInfoTrain, imageSize, path)
 
-    yTrain = transform_from_classes(labelsInfoTrain['Class'])
-    yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
+    if nn_ytrain:
+        yTrain = transform_from_classes(labelsInfoTrain['Class'])
+    else:
+        yTrain = labelsInfoTrain['Class'].map(transform_str_to_feature)
 
     print xTrain.shape, yTrain.shape
     print xTrain.dtype, yTrain.dtype
@@ -103,15 +105,26 @@ def train_nn_model():
         max_epochs=400,  # we want to train this many epochs
         verbose=1,)
 
-    xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
+    xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data(nn_ytrain=True)
 
     print xTrain.shape, yTrain.shape
     print xTrain.dtype, yTrain.dtype
 
     model.fit(xTrain, yTrain)
-    #ytest_pred = model.predict(xTrain)
+    ytest_pred = model.predict(xTrain)
     print model.score(xTrain, yTrain)
-    #print accuracy_score(ytest_pred, yTrain)
+    print accuracy_score(ytest_pred, yTrain)
+    
+    yTest = model.predict(xTest)
+    
+    print labelsInfoTest.shape, yTest.shape
+    
+    yTest2 = transform_to_class(yTest)
+    
+    submit_df = labelsInfoTest
+    submit_df['Class'] = yTest2
+    submit_df.to_csv('submission.csv', index=False)
+
     return model
 
 def train_model():
@@ -153,7 +166,7 @@ def test_knn_model():
 
 def get_submission():
     xTrain, yTrain, xTest, labelsInfoTest = load_train_test_data()
-   
+
     model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
@@ -168,8 +181,8 @@ def get_submission():
 
 if __name__ == '__main__':
     #load_train_test_data()
-    train_nn_model()
+    #train_nn_model()
     #train_knn_model()
     #test_knn_model()
-    #train_model()
-    #get_submission()
+    train_model()
+    get_submission()
