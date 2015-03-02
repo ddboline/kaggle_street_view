@@ -3,9 +3,17 @@
 import os
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import pylab as pl
+
 from pandas.io.parsers import read_csv
 from sklearn.utils import shuffle
 from skimage.io import imread
+from skimage.feature import hog
+from skimage.filter import canny, roberts
+from skimage.transform import hough_line, hough_line_peaks, probabilistic_hough_line
+from skimage import exposure, color
 
 def load_data(typeData, labelsInfo, imageSize, path):
     x = np.zeros((labelsInfo.shape[0], imageSize), dtype=np.float32)
@@ -15,3 +23,4 @@ def load_data(typeData, labelsInfo, imageSize, path):
         #x[index, :, :] = img
         x[index, :] = np.reshape(img, (1, imageSize))
     return x
+        

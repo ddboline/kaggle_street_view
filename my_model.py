@@ -7,7 +7,7 @@ import pylab as pl
 
 import pandas as pd
 
-from load_fn import load_data
+from load_fn import load_data, test_hog
 
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
@@ -168,8 +168,8 @@ def get_submission():
 
 if __name__ == '__main__':
     #load_train_test_data()
-    #train_nn_model()
+    train_nn_model()
     #train_knn_model()
     #test_knn_model()
-    train_model()
-    get_submission()
+    #train_model()
+    #get_submission()
