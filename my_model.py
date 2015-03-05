@@ -7,7 +7,7 @@ import pylab as pl
 
 import pandas as pd
 
-from load_fn import load_data, test_hog
+from load_fn import load_data
 
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
