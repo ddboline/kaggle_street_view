@@ -137,7 +137,7 @@ def train_nn_model():
     return model
 
 def train_model():
-    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data(nn_ytrain=True)
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
