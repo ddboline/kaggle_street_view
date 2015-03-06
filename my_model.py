@@ -5,13 +5,20 @@ import matplotlib
 matplotlib.use('Agg')
 import pylab as pl
 
+import gzip
+
 import pandas as pd
 
 from load_fn import load_data
 
-from sklearn.neighbors import KNeighborsClassifier as KNN
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.grid_search import GridSearchCV
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
+
+from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import Perceptron
+
+from sklearn.feature_selection import RFECV
 
 from sklearn.cross_validation import cross_val_score as k_fold_CV
 from sklearn.cross_validation import train_test_split
@@ -20,6 +27,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.decomposition import PCA, FastICA, KernelPCA
 
 from sklearn.pipeline import Pipeline
+
+from sklearn.externals import joblib
 
 ORD_VALUES = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]
 NORD = len(ORD_VALUES)
@@ -128,37 +137,32 @@ def train_nn_model():
     return model
 
 def train_model():
-    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data(nn_ytrain=True)
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
-    #model = Pipeline([('pca', PCA(n_components='mle')), ('rf', RandomForestClassifier(n_estimators=400, n_jobs=-1))])
-    
-    model.fit(xtrain, ytrain)
-    #ytest = model.predict(xtest)
-    
-    print model.score(xtest, ytest)
-    ytest_pred = model.predict(xtest)
-    print accuracy_score(ytest_pred, ytest)
-
-def train_knn_model():
-    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
-
-    xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
-
-    model = KNN(n_neighbors=62)
-    model.fit(xtrain, ytrain)
-    print model.score(xtest, ytest)
-    ytest_pred = model.predict(xtest)
-    print accuracy_score(ytest_pred, ytest)
+    for name, model in (('rf400', RandomForestClassifier(n_estimators=400, n_jobs=-1)),
+                        ('knn', KNeighborsClassifier()),
+                        ('knn62', KNeighborsClassifier(n_neighbors=62)),
+                        ('sgdc_hinge', SGDClassifier(loss='hinge', n_jobs=-1)),
+                        ('sgdc_log', SGDClassifier(loss='log', n_jobs=-1)),
+                        ('sgdc_modhub', SGDClassifier(loss='modified_huber', n_jobs=-1)),
+                        ('sgdc_sqhinge', SGDClassifier(loss='squared_hinge', n_jobs=-1)),
+                        ('sgdc_perceptron', SGDClassifier(loss='perceptron', n_jobs=-1)),):
+        model.fit(xtrain, ytrain)
+        print name, model.score(xtest, ytest)
+        ytest_pred = model.predict(xtest)
+        print name, accuracy_score(ytest_pred, ytest)
+        
+        with gzip.open('%s_model.pkl.gz', 'w') as f:
+            joblib.dump(model, f)
 
 def test_knn_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
     
-    model = KNN()
+    model = KNeighborsClassifier()
     tuned_parameters = [{"n_neighbors":list(range(1,5))}]
     clf = GridSearchCV( model, tuned_parameters, cv=5, scoring="accuracy")
     clf.fit(xtrain, ytrain)
@@ -185,4 +189,4 @@ if __name__ == '__main__':
     #train_knn_model()
     #test_knn_model()
     train_model()
-    get_submission()
+    #get_submission()
