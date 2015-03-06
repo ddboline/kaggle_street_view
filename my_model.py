@@ -137,24 +137,32 @@ def train_nn_model():
     return model
 
 def train_model():
-    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data(nn_ytrain=True)
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
-    for name, model in (('rf400', RandomForestClassifier(n_estimators=400, n_jobs=-1)),
+    for name, model in (
+                        ('rf400', RandomForestClassifier(n_estimators=400, n_jobs=-1)),
+                        ('rf400', RandomForestRegressor(n_estimators=400, n_jobs=-1)),
                         ('knn', KNeighborsClassifier()),
                         ('knn62', KNeighborsClassifier(n_neighbors=62)),
                         ('sgdc_hinge', SGDClassifier(loss='hinge', n_jobs=-1)),
                         ('sgdc_log', SGDClassifier(loss='log', n_jobs=-1)),
-                        ('sgdc_modhub', SGDClassifier(loss='modified_huber', n_jobs=-1)),
-                        ('sgdc_sqhinge', SGDClassifier(loss='squared_hinge', n_jobs=-1)),
-                        ('sgdc_perceptron', SGDClassifier(loss='perceptron', n_jobs=-1)),):
+                        #('sgdc_modhub', SGDClassifier(loss='modified_huber', n_jobs=-1)),
+                        #('sgdc_sqhinge', SGDClassifier(loss='squared_hinge', n_jobs=-1)),
+                        #('sgdc_perceptron', SGDClassifier(loss='perceptron', n_jobs=-1)),):
+                        #('sgdc_hinge', SGDClassifier(loss='hinge', n_jobs=-1)),
+                        #('sgdc_log', SGDClassifier(loss='log', n_jobs=-1)),
+                        #('sgdc_modhub', SGDClassifier(loss='modified_huber', n_jobs=-1)),
+                        #('sgdc_sqhinge', SGDClassifier(loss='squared_hinge', n_jobs=-1)),
+                        #('sgdc_perceptron', SGDClassifier(loss='perceptron', n_jobs=-1)),
+                        ):
         model.fit(xtrain, ytrain)
         print name, model.score(xtest, ytest)
         ytest_pred = model.predict(xtest)
         print name, accuracy_score(ytest_pred, ytest)
         
-        with gzip.open('%s_model.pkl.gz', 'w') as f:
+        with gzip.open('%s_model.pkl.gz' % name, 'w') as f:
             pickle.dump(model, f)
 
 def test_knn_model():
