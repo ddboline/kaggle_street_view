@@ -12,7 +12,7 @@ import pandas as pd
 from load_fn import load_data
 
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
 
 from sklearn.linear_model import SGDClassifier
