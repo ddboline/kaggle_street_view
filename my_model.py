@@ -15,6 +15,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
 
+from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import Perceptron
 
@@ -137,17 +138,18 @@ def train_nn_model():
     return model
 
 def train_model():
-    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data(nn_ytrain=True)
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
 
     for name, model in (
                         ('rf400', RandomForestClassifier(n_estimators=400, n_jobs=-1)),
-                        ('rf400', RandomForestRegressor(n_estimators=400, n_jobs=-1)),
+                        #('rf400', RandomForestRegressor(n_estimators=400, n_jobs=-1)),
                         ('knn', KNeighborsClassifier()),
                         ('knn62', KNeighborsClassifier(n_neighbors=62)),
                         ('sgdc_hinge', SGDClassifier(loss='hinge', n_jobs=-1)),
                         ('sgdc_log', SGDClassifier(loss='log', n_jobs=-1)),
+                        ('SVC', SVC()),
                         #('sgdc_modhub', SGDClassifier(loss='modified_huber', n_jobs=-1)),
                         #('sgdc_sqhinge', SGDClassifier(loss='squared_hinge', n_jobs=-1)),
                         #('sgdc_perceptron', SGDClassifier(loss='perceptron', n_jobs=-1)),):
