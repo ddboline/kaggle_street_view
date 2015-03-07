@@ -167,6 +167,31 @@ def train_model():
         with gzip.open('%s_model.pkl.gz' % name, 'w') as f:
             pickle.dump(model, f)
 
+def combine_models():
+    xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
+    
+    xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
+    
+    models = []
+    
+    for name in 'rf400', 'knn': #, 'knn62': 
+        with gzip.open('%s_model.pkl.gz' % name, 'r') as f:
+            model = pickle.load(f)
+            models.append((name, model))
+    
+    ytest_preds = []
+    for name, model in models:
+        ytest_preds.append(model.predict(xtest))
+    cv = np.cov(ytest_preds[0], ytest_preds[1])
+    invcv = np.linalg.inv(cv)
+    w = [ invcv[0,:].sum() / invcv.sum() , invcv[1,:].sum() / invcv.sum() ]
+    print w
+    print ytest_preds
+    ytest_pred = w[0] * ytest_preds[0] + w[1] * ytest_preds[1]
+    print ytest_pred
+    print ytest
+    print 'comb', accuracy_score(ytest_pred.astype(int64), ytest)
+
 def test_knn_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
@@ -198,5 +223,6 @@ if __name__ == '__main__':
     #train_nn_model()
     #train_knn_model()
     #test_knn_model()
-    train_model()
+    #train_model()
+    combine_models()
     #get_submission()
