@@ -43,7 +43,7 @@ def transform_str_to_feature(st):
 def transform_feature_to_str(ft):
     return chr(ORD_VALUES[int(ft)])
     #idx = NORD//2 + int(ft * NORD//2)
-    #if idx < 0 :
+    #if idx < 0:
         #idx = 0
     #if idx >= NORD:
         #idx = ORD_VALUES-1
@@ -66,7 +66,7 @@ def float32(k):
 def load_train_test_data(nn_ytrain=False):
     imageSize = 400 # 20 x 20 pixels
 
-    #Set location of data files , folders
+    #Set location of data files, folders
     path = '.'
 
     labelsInfoTrain = pd.read_csv("{0}/trainLabels.csv".format(path))
@@ -82,7 +82,7 @@ def load_train_test_data(nn_ytrain=False):
     print xTrain.shape, yTrain.shape
     print xTrain.dtype, yTrain.dtype
 
-    #Read information about test data ( IDs ).
+    #Read information about test data (IDs).
     labelsInfoTest = pd.read_csv("{0}/sampleSubmission.csv".format(path))
 
     #Read test matrix
@@ -124,13 +124,13 @@ def train_nn_model():
     ytest_pred = model.predict(xTrain)
     print model.score(xTrain, yTrain)
     print accuracy_score(ytest_pred, yTrain)
-    
+
     yTest = model.predict(xTest)
-    
+
     print labelsInfoTest.shape, yTest.shape
-    
+
     yTest2 = transform_to_class(yTest)
-    
+
     submit_df = labelsInfoTest
     submit_df['Class'] = yTest2
     submit_df.to_csv('submission.csv', index=False)
@@ -158,33 +158,33 @@ def train_model():
                         #('sgdc_modhub', SGDClassifier(loss='modified_huber', n_jobs=-1)),
                         #('sgdc_sqhinge', SGDClassifier(loss='squared_hinge', n_jobs=-1)),
                         #('sgdc_perceptron', SGDClassifier(loss='perceptron', n_jobs=-1)),
-                        ):
+                       ):
         model.fit(xtrain, ytrain)
         print name, model.score(xtest, ytest)
         ytest_pred = model.predict(xtest)
         print name, accuracy_score(ytest_pred, ytest)
-        
+
         with gzip.open('%s_model.pkl.gz' % name, 'w') as f:
             pickle.dump(model, f)
 
 def combine_models():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
-    
+
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
-    
+
     models = []
-    
-    for name in 'rf400', 'knn': #, 'knn62': 
+
+    for name in 'rf400', 'knn': #, 'knn62':
         with gzip.open('%s_model.pkl.gz' % name, 'r') as f:
             model = pickle.load(f)
             models.append((name, model))
-    
+
     ytest_preds = []
     for name, model in models:
         ytest_preds.append(model.predict(xtest))
     cv = np.cov(ytest_preds[0], ytest_preds[1])
     invcv = np.linalg.inv(cv)
-    w = [ invcv[0,:].sum() / invcv.sum() , invcv[1,:].sum() / invcv.sum() ]
+    w = [invcv[0,:].sum() / invcv.sum(), invcv[1,:].sum() / invcv.sum()]
     print w
     print ytest_preds
     ytest_pred = w[0] * ytest_preds[0] + w[1] * ytest_preds[1]
@@ -196,10 +196,10 @@ def test_knn_model():
     xTrain, yTrain, Xtest, labelsInfoTest = load_train_test_data()
 
     xtrain, xtest, ytrain, ytest = train_test_split(xTrain, yTrain, test_size=0.5)
-    
+
     model = KNeighborsClassifier()
     tuned_parameters = [{"n_neighbors":list(range(1,5))}]
-    clf = GridSearchCV( model, tuned_parameters, cv=5, scoring="accuracy")
+    clf = GridSearchCV(model, tuned_parameters, cv=5, scoring="accuracy")
     clf.fit(xtrain, ytrain)
     print clf.grid_scores_
 
@@ -209,11 +209,11 @@ def get_submission():
     model = RandomForestClassifier(n_estimators=400, n_jobs=-1)
     model.fit(xTrain, yTrain)
     yTest = model.predict(xTest)
-    
+
     print labelsInfoTest.shape, yTest.shape
-    
+
     yTest2 = map(transform_feature_to_str, yTest)
-    
+
     submit_df = labelsInfoTest
     submit_df['Class'] = yTest2
     submit_df.to_csv('submission.csv', index=False)
