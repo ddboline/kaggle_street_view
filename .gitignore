@@ -55,3 +55,9 @@ target/
 *.csv
 *.png
 *.txt
+*.gz
+*.zip
+backup/
+test/
+testResized/
+trainResized/
